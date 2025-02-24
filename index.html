@@ -1,0 +1,714 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Coding Education Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Reset and Basic Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FFFFFF;
+            color: #333333;
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+        a {
+            text-decoration: none;
+            color: #2D9CDB;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #27AE60;
+        }
+        button {
+            background-color: #27AE60;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2D9CDB;
+        }
+        /* Header Styles */
+        header {
+            background-color: #2D9CDB;
+            color: #FFFFFF;
+            padding: 15px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav a {
+            color: #FFFFFF;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+            position: relative;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px 35px 10px 15px;
+            border-radius: 20px;
+            border: none;
+            background-color: rgba(255,255,255,0.2);
+            color: #FFFFFF;
+            outline: none;
+        }
+        .search-bar i {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #FFFFFF;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+        /* Banner Styles */
+        .banner {
+            margin-top: 70px;
+            text-align: center;
+            padding: 80px 20px;
+            background-image: url('https://picsum.photos/1200/400?grayscale');
+            background-size: cover;
+            background-position: center;
+            color: #FFFFFF;
+            position: relative;
+            overflow: hidden;
+        }
+
+.banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    z-index: 1;
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+}
+        .banner h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .banner p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        .banner button {
+            background-color: #FFC107;
+            color: #333333;
+            font-weight: 600;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+        }
+        /* Feature Highlight Styles */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+            background-color: #F5F5F5;
+        }
+        .feature {
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 300px;
+            transition: transform 0.3s;
+        }
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        .feature i {
+            font-size: 48px;
+            color: #2D9CDB;
+            margin-bottom: 15px;
+        }
+        .feature h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+        .feature p {
+            color: #666666;
+        }
+        /* Testimonials Styles */
+        .testimonials {
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #FFFFFF;
+        }
+        .testimonial {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #F5F5F5;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .testimonial p {
+            font-style: italic;
+            color: #666666;
+            margin-bottom: 15px;
+        }
+        .testimonial-author {
+            font-weight: bold;
+            color: #333333;
+        }
+        /* Learning Section Styles */
+        .learning-section {
+            display: flex;
+            padding: 40px 20px;
+        }
+        .sidebar {
+            width: 250px;
+            margin-right: 30px;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background-color: #F5F5F5;
+            color: #333333;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #2D9CDB;
+            color: #FFFFFF;
+        }
+        .main-content {
+            flex-grow: 1;
+        }
+        .course-content {
+            display: none;
+        }
+        .course-content.active {
+            display: block;
+        }
+        .course-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        .course-content ul {
+            list-style: disc;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        .course-content li {
+            margin-bottom: 5px;
+        }
+        .progress-tracker {
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #F5F5F5;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background-color: #27AE60;
+            width: 0;
+            transition: width 0.5s ease-in-out;
+        }
+        /* Live Coding Environment Styles */
+        .coding-environment {
+            display: flex;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .code-editor {
+            flex: 1;
+            padding: 10px;
+            background-color: #1E1E1E;
+            color: #FFFFFF;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow: auto;
+            resize: none;
+            border: none;
+            outline: none;
+        }
+        .output-console {
+            flex: 1;
+            padding: 10px;
+            background-color: #333333;
+            color: #FFFFFF;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow: auto;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+            background-color: #F5F5F5;
+            border-bottom: 1px solid #ddd;
+        }
+        .toolbar button {
+            margin-left: 10px;
+        }
+        /* Community and Mentorship Styles */
+        .community-section {
+            padding: 40px 20px;
+        }
+        .forum {
+            margin-bottom: 40px;
+        }
+        .forum-thread {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background-color: #FFFFFF;
+        }
+        .forum-thread h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+        .forum-thread p {
+            color: #666666;
+        }
+        .mentorship {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .mentor {
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #F5F5F5;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 300px;
+            transition: transform 0.3s;
+        }
+        .mentor:hover {
+            transform: translateY(-5px);
+        }
+        .mentor img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        .mentor h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+        .mentor p {
+            color: #666666;
+        }
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #E0E0E0;
+        }
+        body.dark-mode header {
+            background-color: #333333;
+        }
+        body.dark-mode .search-bar input {
+            background-color: rgba(255,255,255,0.1);
+        }
+        body.dark-mode .features, body.dark-mode .testimonial {
+            background-color: #1E1E1E;
+        }
+        body.dark-mode .feature, body.dark-mode .forum-thread, body.dark-mode .mentor {
+            background-color: #333333;
+        }
+        body.dark-mode .sidebar a {
+            background-color: #333333;
+            color: #E0E0E0;
+        }
+        body.dark-mode .sidebar a:hover {
+            background-color: #2D9CDB;
+        }
+        body.dark-mode .progress-bar {
+            background-color: #333333;
+        }
+        body.dark-mode .toolbar {
+            background-color: #1E1E1E;
+            border-bottom: 1px solid #666666;
+        }
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search-bar {
+                margin: 10px 0;
+                width: 100%;
+            }
+            .user-profile {
+                margin-top: 10px;
+            }
+            .banner {
+                margin-top: 180px;
+                padding: 50px 20px;
+            }
+            .banner h1 {
+                font-size: 2rem;
+            }
+            .banner p {
+                font-size: 1.2rem;
+            }
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            .learning-section {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .coding-environment {
+                flex-direction: column;
+                height: auto;
+            }
+            .code-editor, .output-console {
+                height: 300px;
+            }
+            .mentorship {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">CodeLearn</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <i class="fas fa-search"></i>
+        </div>
+        <nav>
+            <a href="#">Courses</a>
+            <a href="#">Challenges</a>
+            <a href="#">Community</a>
+            <a href="#">Mentorship</a>
+        </nav>
+        <div class="user-profile">
+            <img src="https://picsum.photos/40/40" alt="User Profile">
+            <button id="theme-toggle">Toggle Dark Mode</button>
+        </div>
+    </header>
+
+    <section class="banner">
+    <div class="banner-content">
+        <h1>Learn to Code Interactively</h1>
+        <p>Master programming with hands-on lessons and real-time feedback.</p>
+        <button>Get Started</button>
+    </div>
+</section>
+
+
+    <section class="features">
+        <div class="feature">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Interactive Lessons</h3>
+            <p>Engage with dynamic content and coding exercises.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-code"></i>
+            <h3>Real-time Coding</h3>
+            <p>Write and test code instantly in your browser.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-chart-line"></i>
+            <h3>Progress Tracking</h3>
+            <p>Monitor your learning journey with detailed progress reports.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-users"></i>
+            <h3>Community Support</h3>
+            <p>Connect with fellow learners and experienced mentors.</p>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="testimonial">
+            <p>"CodeLearn transformed my coding journey! The interactive lessons and real-time feedback made learning fun and effective."</p>
+            <p class="testimonial-author">- Jane Doe</p>
+        </div>
+        <div class="testimonial">
+            <p>"I love the community aspect of CodeLearn. It's great to connect with other learners and get help when I need it."</p>
+            <p class="testimonial-author">- John Smith</p>
+        </div>
+    </section>
+
+    <section class="learning-section">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="#" onclick="showCourse('python')">Python</a></li>
+                <li><a href="#" onclick="showCourse('javascript')">JavaScript</a></li>
+                <li><a href="#" onclick="showCourse('java')">Java</a></li>
+                <li><a href="#" onclick="showCourse('cpp')">C++</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <div id="python" class="course-content active">
+                <h2>Python Course</h2>
+                <ul>
+                    <li>Introduction to Python</li>
+                    <li>Data Types and Variables</li>
+                    <li>Control Flow</li>
+                    <li>Functions</li>
+                    <li>Object-Oriented Programming</li>
+                </ul>
+                <div class="progress-tracker">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <div class="coding-environment">
+                    <div class="toolbar">
+                        <button onclick="runCode()">Run</button>
+                        <button onclick="resetCode()">Reset</button>
+                    </div>
+                    <textarea id="python-editor" class="code-editor">print("Hello, World!")</textarea>
+                    <pre id="python-console" class="output-console"></pre>
+                </div>
+            </div>
+            <div id="javascript" class="course-content">
+                <h2>JavaScript Course</h2>
+                <ul>
+                    <li>Introduction to JavaScript</li>
+                    <li>Variables and Data Types</li>
+                    <li>Control Structures</li>
+                    <li>Functions and Scope</li>
+                    <li>DOM Manipulation</li>
+                </ul>
+                <div class="progress-tracker">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 30%;"></div>
+                    </div>
+                </div>
+                <div class="coding-environment">
+                    <div class="toolbar">
+                        <button onclick="runCode()">Run</button>
+                        <button onclick="resetCode()">Reset</button>
+                    </div>
+                    <textarea id="js-editor" class="code-editor">console.log("Hello, World!");</textarea>
+                    <pre id="js-console" class="output-console"></pre>
+                </div>
+            </div>
+            <div id="java" class="course-content">
+                <h2>Java Course</h2>
+                <ul>
+                    <li>Introduction to Java</li>
+                    <li>Data Types and Variables</li>
+                    <li>Control Flow</li>
+                    <li>Classes and Objects</li>
+                    <li>Inheritance and Polymorphism</li>
+                </ul>
+                <div class="progress-tracker">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 45%;"></div>
+                    </div>
+                </div>
+                <div class="coding-environment">
+                    <div class="toolbar">
+                        <button onclick="runCode()">Run</button>
+                        <button onclick="resetCode()">Reset</button>
+                    </div>
+                    <textarea id="java-editor" class="code-editor">public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}</textarea>
+                    <pre id="java-console" class="output-console"></pre>
+                </div>
+            </div>
+            <div id="cpp" class="course-content">
+                <h2>C++ Course</h2>
+                <ul>
+                    <li>Introduction to C++</li>
+                    <li>Data Types and Variables</li>
+                    <li>Control Flow</li>
+                    <li>Functions</li>
+                    <li>Pointers and References</li>
+                </ul>
+                <div class="progress-tracker">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <div class="coding-environment">
+                    <div class="toolbar">
+                        <button onclick="runCode()">Run</button>
+                        <button onclick="resetCode()">Reset</button>
+                    </div>
+                    <textarea id="cpp-editor" class="code-editor">#include <iostream>
+
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}</textarea>
+                    <pre id="cpp-console" class="output-console"></pre>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <section class="community-section">
+        <h2>Community</h2>
+        <div class="forum">
+            <div class="forum-thread">
+                <h3>Python Question</h3>
+                <p>How do I create a list in Python?</p>
+            </div>
+            <div class="forum-thread">
+                <h3>JavaScript Help</h3>
+                <p>Can someone explain how to use async/await?</p>
+            </div>
+        </div>
+
+        <h2>Mentorship</h2>
+        <div class="mentorship">
+            <div class="mentor">
+                <img src="https://picsum.photos/100/100" alt="Mentor 1">
+                <h4>Alice Smith</h4>
+                <p>Python Expert</p>
+                <button>Book Session</button>
+            </div>
+            <div class="mentor">
+                <img src="https://picsum.photos/100/100" alt="Mentor 2">
+                <h4>Bob Johnson</h4>
+                <p>JavaScript Guru</p>
+                <button>Book Session</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const toggleButton = document.getElementById('theme-toggle');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if(document.body.classList.contains('dark-mode')){
+                toggleButton.textContent = 'Light Mode';
+            } else {
+                toggleButton.textContent = 'Toggle Dark Mode';
+            }
+        });
+
+        function showCourse(courseId) {
+            const courses = document.querySelectorAll('.course-content');
+            courses.forEach(course => course.classList.remove('active'));
+            document.getElementById(courseId).classList.add('active');
+        }
+
+        function runCode() {
+            const activeCourse = document.querySelector('.course-content.active');
+            if (!activeCourse) return;
+
+            const editorId = activeCourse.id + '-editor';
+            const consoleId = activeCourse.id + '-console';
+            const code = document.getElementById(editorId).value;
+            const outputConsole = document.getElementById(consoleId);
+
+            try {
+                if (activeCourse.id === 'python') {
+                    // Simulate Python execution (basic example)
+                    if (code.includes('print')) {
+                        const output = code.match(/print\((.*)\)/)[1].replace(/['"]/g, '');
+                        outputConsole.textContent = output;
+                    } else {
+                        outputConsole.textContent = 'Output will appear here.';
+                    }
+                } else if (activeCourse.id === 'javascript') {
+                    // Execute JavaScript code
+                    let result = eval(code);
+                    outputConsole.textContent = result !== undefined ? result : 'Output will appear here.';
+                } else if (activeCourse.id === 'java' || activeCourse.id === 'cpp') {
+                    
+                    outputConsole.textContent = 'Java/C++ execution not supported in this demo. Output will appear here.';
+                }
+            } catch (error) {
+                outputConsole.textContent = 'Error: ' + error.message;
+            }
+        }
+
+        function resetCode() {
+            const activeCourse = document.querySelector('.course-content.active');
+            if (!activeCourse) return;
+
+            const editorId = activeCourse.id + '-editor';
+            const consoleId = activeCourse.id + '-console';
+            const codeEditor = document.getElementById(editorId);
+            const outputConsole = document.getElementById(consoleId);
+
+            if (activeCourse.id === 'python') {
+                codeEditor.value = 'print("Hello, World!")';
+            } else if (activeCourse.id === 'javascript') {
+                codeEditor.value = 'console.log("Hello, World!");';
+            } else if (activeCourse.id === 'java') {
+                codeEditor.value = 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}';
+            } else if (activeCourse.id === 'cpp') {
+                codeEditor.value = '#include <iostream>\n\nint main() {\n    std::cout << "Hello, World!" << std::endl;\n    return 0;\n}';
+            }
+            outputConsole.textContent = '';
+        }
+    </script>
+</body>
+</html>
